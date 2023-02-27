@@ -3,7 +3,7 @@
             [com.eelchat.feat.app :as app]
             [com.eelchat.feat.auth :as auth]
             [com.eelchat.feat.home :as home]
-            [com.eelchat.feat.worker :as worker]
+            ;; [com.eelchat.feat.worker :as worker]
             [com.eelchat.schema :refer [malli-opts]]
             [clojure.java.io :as io]
             [clojure.string :as str]
@@ -16,7 +16,8 @@
   [app/features
    auth/features
    home/features
-   worker/features])
+   ;;worker/features
+   ])
 
 (def routes [["" {:middleware [anti-forgery/wrap-anti-forgery
                                biff/wrap-anti-forgery-websockets

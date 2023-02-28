@@ -12,6 +12,18 @@
         slurp
         edn/read-string)))
 
+(defn seed-channels []
+  (let [{:keys [biff/db] :as sys} (get-sys)]
+    (biff/submit-tx sys
+                    (for [[mem chan] (q db
+                                        '{:find [mem chan]
+                                          :where [[mem :mem/comm comm]
+                                                  [chan :chan/comm comm]]})]
+                      {:db/doc-type :message
+                       :msg/mem mem
+                       :msg/channel chan
+                       :msg/created-at :db/now
+                       :msg/text (str "Seed message " (rand-int 1000))}))))
 (comment
 
   ;; As of writing this, calling (biff/refresh) with Conjure causes stdout to
@@ -34,4 +46,12 @@
 
   ;; Check the terminal for output.
   (biff/submit-job (get-sys) :echo {:foo "bar"})
-  (deref (biff/submit-job-for-result (get-sys) :echo {:foo "bar"})))
+  (deref (biff/submit-job-for-result (get-sys) :echo {:foo "bar"}))
+
+  (seed-channels)
+  (let [{:keys [biff/db] :as sys} (get-sys)]
+    (q db
+       '{:find (pull msg [*])
+         :where [[msg :msg/txt]]}))
+  )
+

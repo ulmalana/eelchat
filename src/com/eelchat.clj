@@ -3,6 +3,7 @@
             [com.eelchat.feat.app :as app]
             [com.eelchat.feat.auth :as auth]
             [com.eelchat.feat.home :as home]
+            [com.eelchat.feat.subscriptions :as sub]
             ;; [com.eelchat.feat.worker :as worker]
             [com.eelchat.schema :refer [malli-opts]]
             [clojure.java.io :as io]
@@ -16,6 +17,7 @@
   [app/features
    auth/features
    home/features
+   sub/features
    ;;worker/features
    ])
 
@@ -71,3 +73,5 @@
 (defn -main [& args]
   (start)
   (apply nrepl-cmd/-main args))
+
+(clojure.core/+ 1 2 3)
